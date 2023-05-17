@@ -11,10 +11,27 @@ datasource db {
     relationMode = "prisma"
 }
 
-model Example {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+model Product {
+    id          Int               @id @default(autoincrement())
+    createdAt   DateTime          @default(now())
+    updatedAt   DateTime?         @updatedAt
+    name        String
+    description String?           @db.Text
+    image       String
+    price       Float
+    inventory   Int
+    categories  ProductCategory[]
+}
+
+model ProductCategory {
+    id          Int       @id @default(autoincrement())
+    createdAt   DateTime  @default(now())
+    updatedAt   DateTime? @updatedAt
+    products    Product[]
+    name        String
+    slug        String    @unique
+    description String?   @db.Text
+    image       String
 }
 
 // Necessary for Next auth

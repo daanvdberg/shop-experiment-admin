@@ -28,8 +28,6 @@ const Breadcrumbs = () => {
 
   const breadcrumbs = generateBreadcrumbs();
 
-  console.log(router);
-
   return (
     <nav className="mb-5 flex" aria-label="breadcrumb">
       <ol className="inline-flex items-center space-x-1 text-sm md:space-x-2">
@@ -53,8 +51,8 @@ const Breadcrumbs = () => {
                 <>
                   {crumb.icon ? (
                     <crumb.icon className="mr-2 w-[17px] text-slate-400" />
-                  ) : null}{" "}
-                  {crumb.title}
+                  ) : null}
+                  &nbsp;{crumb.title}
                 </>
               )}
             </li>

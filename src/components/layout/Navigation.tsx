@@ -5,7 +5,11 @@ import Link from "next/link";
 import {
   ArrowRightOnRectangleIcon,
   MagnifyingGlassIcon,
+  Bars3Icon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
+import useNavigation from "~/stores/navigation";
+import classNames from "classnames";
 
 const navigation = [
   { name: "Dashboard", href: "/dashboard" },
@@ -13,20 +17,28 @@ const navigation = [
   { name: "Products", href: "/catalog/products" },
 ];
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
 export const Navigation = () => {
   const { data: sessionData } = useSession();
 
-  const pathname = usePathname();
+  const toggleNavVisibility = useNavigation((state) => state.setVisible);
+  const navVisible = useNavigation((state) => state.visible);
 
   return (
     <nav className="fixed z-30 w-full border-b border-gray-200 bg-white">
       <div className="px-3 py-3 lg:px-5 lg:pl-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center justify-start">
+            <button
+              onClick={() => toggleNavVisibility(!navVisible)}
+              className="mr-2 cursor-pointer rounded p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-100 focus:ring-2 focus:ring-gray-100 lg:hidden"
+            >
+              <Bars3Icon
+                className={classNames("h-6 w-6", navVisible ? "hidden" : "")}
+              />
+              <XMarkIcon
+                className={classNames("h-6 w-6", navVisible ? "" : "hidden")}
+              />
+            </button>
             <Link
               href="/dashboard"
               className="flex items-center text-lg font-bold text-sky-700 lg:ml-2.5"

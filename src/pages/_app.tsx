@@ -9,8 +9,14 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import { MainLayout } from "~/components/layout/MainLayout";
 
+export type MetaInformation = {
+  title: string;
+  description?: string;
+};
+
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
+  meta: MetaInformation;
 };
 
 type AppPropsWithLayout = AppProps & {
@@ -23,7 +29,8 @@ const MyApp = ({
   pageProps: { session, ...pageProps },
 }: AppPropsWithLayout) => {
   const getLayout =
-    Component.getLayout ?? ((page) => <MainLayout>{page}</MainLayout>);
+    Component.getLayout ??
+    ((page) => <MainLayout {...page.props}>{page}</MainLayout>);
 
   return (
     <SessionProvider session={session}>
