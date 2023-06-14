@@ -10,4 +10,4 @@ Experimenting with building an administration for the webshop experiment to prov
 
 ### Demo
 
-Pending...
+Preview of the app can be viewed [here](https://avocado-admin.vercel.app/).
