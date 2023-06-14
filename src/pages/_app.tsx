@@ -14,9 +14,12 @@ export type MetaInformation = {
   description?: string;
 };
 
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
+export type NextPageWithLayout<P = Record<string, unknown>, IP = P> = NextPage<
+  P,
+  IP
+> & {
   getLayout?: (page: ReactElement) => ReactNode;
-  meta: MetaInformation;
+  //meta?: MetaInformation;
 };
 
 type AppPropsWithLayout = AppProps & {
@@ -26,7 +29,8 @@ type AppPropsWithLayout = AppProps & {
 
 const MyApp = ({
   Component,
-  pageProps: { session, ...pageProps },
+  pageProps: { ...pageProps },
+  session,
 }: AppPropsWithLayout) => {
   const getLayout =
     Component.getLayout ??

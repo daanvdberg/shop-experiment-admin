@@ -23,6 +23,8 @@ export const Navigation = () => {
   const toggleNavVisibility = useNavigation((state) => state.setVisible);
   const navVisible = useNavigation((state) => state.visible);
 
+  const handleSignout = () => signOut();
+
   return (
     <nav className="fixed z-30 w-full border-b border-gray-200 bg-white">
       <div className="px-3 py-3 lg:px-5 lg:pl-3">
@@ -71,7 +73,7 @@ export const Navigation = () => {
             <span className="font-normal">{sessionData?.user.name}</span>
             <button
               className="ml-4 flex w-full items-center rounded-lg px-3 py-2 text-sm hover:bg-slate-100"
-              onClick={() => signOut()}
+              onClick={() => void handleSignout()}
             >
               <ArrowRightOnRectangleIcon className="-mb-[1px] mr-2 w-4" />
               <span className="self-center whitespace-nowrap">Sign out</span>

@@ -13,7 +13,7 @@ interface SelectProps {
   options: SelectOption[];
 }
 
-export type SelectOption = { value: string; label: string };
+type SelectOption = { value: string; label: string };
 
 const Select = forwardRef<
   ElementRef<typeof RadixSelect.Root>,
@@ -56,4 +56,6 @@ const Select = forwardRef<
   </RadixSelect.Root>
 ));
 
-export default Select;
+Select.displayName = "Select";
+
+export { Select as default, type SelectOption };

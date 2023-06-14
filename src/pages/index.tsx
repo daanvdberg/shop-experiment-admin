@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 import { ReactElement, useEffect } from "react";
@@ -12,7 +12,7 @@ const Home: NextPageWithLayout = () => {
 
   useEffect(() => {
     if (sessionData && sessionData.user) {
-      router.push("/dashboard");
+      void router.push("/dashboard");
     }
   }, [sessionData]);
 

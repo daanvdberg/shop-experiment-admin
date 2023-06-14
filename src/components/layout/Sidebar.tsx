@@ -16,9 +16,20 @@ const navigation = [
     name: "Products",
     href: "/catalog/products",
     IconComponent: ShoppingBagIcon,
+    disabled: true,
   },
-  { name: "Users", href: "/users", IconComponent: ShoppingBagIcon },
-  { name: "Orders", href: "/orders", IconComponent: DocumentTextIcon },
+  {
+    name: "Users",
+    href: "/users",
+    IconComponent: ShoppingBagIcon,
+    disabled: true,
+  },
+  {
+    name: "Orders",
+    href: "/orders",
+    IconComponent: DocumentTextIcon,
+    disabled: true,
+  },
 ];
 
 export const Sidebar = () => {
@@ -38,13 +49,14 @@ export const Sidebar = () => {
           <div className="overflow-y-auton flex flex-1 flex-col pb-4 pt-5">
             <div className="flex-1 space-y-1 divide-y bg-white px-3">
               <ul className="space-y-2 pb-2">
-                {navigation.map(({ name, href, IconComponent }) => (
+                {navigation.map(({ name, href, IconComponent, disabled }) => (
                   <li key={name}>
                     <Link
                       href={href}
                       className={classNames(
                         "group flex items-center rounded-lg p-3 text-xs font-medium uppercase hover:bg-gray-100",
-                        pathname === href ? "text-sky-700" : ""
+                        pathname === href ? "text-sky-700" : "",
+                        disabled ? "pointer-events-none opacity-30" : ""
                       )}
                       aria-current={pathname === href ? "page" : undefined}
                       onClick={() => setNavVisibility(false)}

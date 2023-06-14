@@ -26,6 +26,8 @@ const SubComponent = forwardRef<
   </div>
 ));
 
+SubComponent.displayName = "SubComponent";
+
 interface DialogSubComponents {
   Content: typeof SubComponent;
   Actions: typeof SubComponent;
@@ -84,6 +86,8 @@ const Dialog: FC<PropsWithChildren<DialogProps>> & DialogSubComponents = ({
     </Transition>
   );
 };
+
+Dialog.displayName = "Dialog";
 
 Dialog.Content = SubComponent;
 Dialog.Actions = SubComponent;
