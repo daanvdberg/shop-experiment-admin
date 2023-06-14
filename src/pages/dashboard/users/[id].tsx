@@ -10,3 +10,7 @@ const User = () => {
 
   return <p>Welcome {session.user.name}!</p>;
 };
+
+User.displayName = "User";
+
+export default User;
