@@ -26,3 +26,10 @@ export type ValidityState =
   | "typeMismatch"
   | "valid"
   | "valueMissing";
+
+export enum Sort {
+  Desc = "Desc",
+  Asc = "Asc",
+  NameDesc = "NameDesc",
+  NameAsc = "NameAsc",
+}

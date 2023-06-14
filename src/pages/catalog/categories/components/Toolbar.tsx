@@ -6,7 +6,7 @@ import { Button } from "~/components/button";
 import AddCategoryForm from "./AddCategoryForm";
 
 const Toolbar = () => {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   const closeModal = () => setIsOpen(false);
 

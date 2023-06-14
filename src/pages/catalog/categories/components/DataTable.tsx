@@ -1,5 +1,4 @@
 import {
-  ColumnDef,
   createColumnHelper,
   flexRender,
   getCoreRowModel,
@@ -9,6 +8,7 @@ import {
   ComponentPropsWithoutRef,
   ElementRef,
   forwardRef,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -16,42 +16,7 @@ import { DividerHorizontalIcon, CheckIcon } from "@radix-ui/react-icons";
 import { Root, Indicator, CheckedState } from "@radix-ui/react-checkbox";
 import { truncate } from "~/utils/helpers";
 import classNames from "classnames";
-
-type Category = {
-  id: number;
-  image: string;
-  name: string;
-  description: string;
-  slug: string;
-  count: number;
-};
-
-const defaultData: Category[] = [
-  {
-    id: 1234,
-    image: "https://picsum.photos/200",
-    name: "Bags",
-    description: "",
-    slug: "bags",
-    count: 0,
-  },
-  {
-    id: 1235,
-    image: "https://picsum.photos/200",
-    name: "Watches",
-    description: "",
-    slug: "watches",
-    count: 0,
-  },
-  {
-    id: 1236,
-    image: "https://picsum.photos/200",
-    name: "Jewelery",
-    description: "",
-    slug: "jewelery",
-    count: 0,
-  },
-];
+import { Category } from "@prisma/client";
 
 type CheckboxProps = ComponentPropsWithoutRef<typeof Root> & {
   onCheckedChange?: (checked: CheckedState) => void;
@@ -84,12 +49,24 @@ const Checkbox = forwardRef<ElementRef<typeof Root>, CheckboxProps>(
   )
 );
 
+Checkbox.displayName = "Checkbox";
+
 const columnHelper = createColumnHelper<Category>();
 
-const DataTable = () => {
-  const [data, setData] = useState(() => [...defaultData]);
+interface DataTableProps {
+  categories?: Category[];
+}
+
+const DataTable = ({ categories }: DataTableProps) => {
+  const [data, setData] = useState<Category[]>([]);
 
   const [rowSelection, setRowSelection] = useState({});
+
+  useEffect(() => {
+    if (categories) {
+      setData(categories);
+    }
+  }, [categories]);
 
   const columns = useMemo(
     () => [
@@ -138,14 +115,10 @@ const DataTable = () => {
       }),
       columnHelper.accessor("description", {
         header: "Description",
-        cell: (info) => truncate(info.getValue(), 30),
+        cell: (info) => truncate(info.getValue() || "", 30),
       }),
       columnHelper.accessor("slug", {
         header: "Slug",
-        cell: (info) => info.getValue(),
-      }),
-      columnHelper.accessor("count", {
-        header: "Count",
         cell: (info) => info.getValue(),
       }),
     ],
@@ -165,41 +138,43 @@ const DataTable = () => {
   });
 
   return (
-    <table className="min-w-full table-fixed divide-y divide-gray-200">
-      <thead className="bg-gray-100">
-        {table.getHeaderGroups().map((headerGroup) => (
-          <tr key={headerGroup.id}>
-            {headerGroup.headers.map((header) => (
-              <th
-                key={header.id}
-                className="p-4 text-left text-xs font-normal uppercase text-gray-500"
-              >
-                {header.isPlaceholder
-                  ? null
-                  : flexRender(
-                      header.column.columnDef.header,
-                      header.getContext()
-                    )}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody className="divide-y divide-gray-200 bg-white">
-        {table.getRowModel().rows.map((row) => (
-          <tr key={row.id} className="hover:bg-gray-50">
-            {row.getVisibleCells().map((cell) => (
-              <td
-                key={cell.id}
-                className="whitespace-nowrap p-4 text-base font-medium text-slate-700"
-              >
-                {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>
-            ))}
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <div>
+      <table className="min-w-full table-fixed divide-y divide-gray-200">
+        <thead className="bg-gray-100">
+          {table.getHeaderGroups().map((headerGroup) => (
+            <tr key={headerGroup.id}>
+              {headerGroup.headers.map((header) => (
+                <th
+                  key={header.id}
+                  className="p-4 text-left text-xs font-normal uppercase text-gray-500"
+                >
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
+                      )}
+                </th>
+              ))}
+            </tr>
+          ))}
+        </thead>
+        <tbody className="divide-y divide-gray-200 bg-white">
+          {table.getRowModel().rows.map((row) => (
+            <tr key={row.id} className="hover:bg-gray-50">
+              {row.getVisibleCells().map((cell) => (
+                <td
+                  key={cell.id}
+                  className="whitespace-nowrap p-4 text-base font-medium text-slate-700"
+                >
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 };
 
